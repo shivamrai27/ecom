@@ -1,7 +1,8 @@
 import JWT from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-//Protected Routes token base
+//protecting routes token base
+
 export const requireSignIn = async (req, res, next) => {
   try {
     const decode = JWT.verify(
@@ -15,7 +16,7 @@ export const requireSignIn = async (req, res, next) => {
   }
 };
 
-//admin acceess
+//admin access
 export const isAdmin = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
@@ -24,15 +25,15 @@ export const isAdmin = async (req, res, next) => {
         success: false,
         message: "UnAuthorized Access",
       });
-    } else {
-      next();
+    }else{
+        next();
     }
   } catch (error) {
     console.log(error);
     res.status(401).send({
-      success: false,
-      error,
-      message: "Error in admin middelware",
-    });
+        success: false,
+        error,
+        message: "Error in admin middleware",
+      });
   }
 };
